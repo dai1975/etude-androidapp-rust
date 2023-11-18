@@ -7,7 +7,7 @@ build:
 	env RANLIB=$(RANLIB) cargo android build
 
 apk:
-	env RANLIB=$(RANLIB) cargo android apk build
+	env RANLIB=$(RANLIB) cargo android apk build aarch64 --release
 
 run:
 	adb devices
