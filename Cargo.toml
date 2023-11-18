@@ -1,0 +1,61 @@
+[package]
+name = "etude-androidapp-rust"
+version = "0.1.0"
+authors = ["Daisuke Kanda <dai1975@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[[bin]]
+name = "etude-androidapp-rust-desktop"
+path = "gen/bin/desktop.rs"
+
+[package.metadata.cargo-android]
+app-activity-name = "com.example.etude_androidapp_rust.MainActivity"
+app-dependencies = [
+    "androidx.webkit:webkit:1.6.1",
+    "androidx.appcompat:appcompat:1.6.1",
+    "com.google.android.material:material:1.8.0",
+]
+project-dependencies = [ "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21" ]
+app-plugins = [ "org.jetbrains.kotlin.android" ]
+app-permissions = [ "android.permission.INTERNET" ]
+app-theme-parent = "Theme.MaterialComponents.DayNight.DarkActionBar"
+vulkan-validation = false
+
+[package.metadata.cargo-android.env-vars]
+WRY_ANDROID_PACKAGE = "com.example.etude_androidapp_rust"
+WRY_ANDROID_LIBRARY = "etude_androidapp_rust"
+WRY_ANDROID_KOTLIN_FILES_OUT_DIR = "<android-project-dir>/app/src/main/kotlin/com/example/etude_androidapp_rust"
+
+[package.metadata.cargo-apple.ios]
+frameworks = [ "WebKit" ]
+
+[dependencies]
+anyhow = "1.0.56"
+log = "0.4.11"
+wry = "0.34.0"
+
+#https://github.com/DioxusLabs/dioxus/issues/1525
+#dioxus = "0.4.0"
+#dioxus-desktop = { version = "0.4.0", default-features = false, features = ["tokio_runtime"] }
+dioxus = { git = "https://github.com/ealmloff/dioxus", branch = "bump-wry" }
+dioxus-mobile = { git = "https://github.com/ealmloff/dioxus", branch = "bump-wry" }
+dioxus-desktop = { git = "https://github.com/ealmloff/dioxus", branch = "bump-wry" }
+async-fs = "2.1.0"
+futures-lite = "2.0.1"
+tokio = { version = "1.34.0", features = ["time"] }
+reqwest = "0.11.22"
+openssl = { version = "0.10.59", features = ["vendored"] }
+
+[target.'cfg(target_os = "android")'.dependencies]
+android_logger = "0.9.0"
+jni = "0.19.0"
+paste = "1.0"
+
+[target.'cfg(not(target_os = "android"))'.dependencies]
+env_logger = "0.9.0"
+
+[target.'cfg(target_os = "ios")'.dependencies]
+core-foundation = "0.9.3"
